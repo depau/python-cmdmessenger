@@ -39,13 +39,13 @@ class Commands(object):
     status = 1
 
 if __name__ == '__main__':
-    # gets the first available USB port
-    port = list_usb_ports()[0][0]
     baud = 115200  # make sure this matches the baudrate on the Arduino
 
     try:
-        serial_port = serial.Serial(port, baud)
-    except serial.SerialError:
+        # gets the first available USB port
+        port = list_usb_ports()[0][0]
+        serial_port = serial.Serial(port_name, baud)
+    except (serial.SerialException, IndexError):
         print 'Could not open serial port.'
         sys.exit(1)
     else:
