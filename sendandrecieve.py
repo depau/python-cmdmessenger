@@ -17,12 +17,11 @@ OFF = 0
 def list_usb_ports():
     """
     Use the grep generator to get a list of all USB ports.
-    This only works on mac/linux
     """
     ports =  [port for port in list_ports.grep('usb')]
     return ports
 
-def _on_unknown_command(self, received_command, *args, **kwargs):
+def on_unknown_command(self, received_command, *args, **kwargs):
     """
     Executes when an unknown command has been received.
     """
@@ -33,6 +32,7 @@ def on_status(received_command, *args, **kwargs):
     Callback function that prints the Arduino status to the console
     """
     print "Arduino status: ", args[0][0]
+    # status = args[0][0]
 
 class Commands(object):
     set_led = 0
@@ -43,8 +43,8 @@ if __name__ == '__main__':
 
     try:
         # gets the first available USB port
-        port = list_usb_ports()[0][0]
-        serial_port = serial.Serial(port_name, baud)
+        port_name = list_usb_ports()[0][0]
+        serial_port = serial.Serial(port_name, baud, timeout=0)
     except (serial.SerialException, IndexError):
         print 'Could not open serial port.'
         sys.exit(1)
@@ -53,22 +53,23 @@ if __name__ == '__main__':
         messenger = CmdMessenger(serial_port)
 
         # attach callbacks
-        messenger.attach(func=_on_unknown_command)
+        messenger.attach(func=on_unknown_command)
         messenger.attach(func=on_status, msgid=Commands.status)
 
         # start the serial monitor thread
-        serial_monitor = SerialMonitor(serial_port, messenger)
-        serial_monitor.start()
+        # serial_monitor = SerialMonitor(serial_port, messenger)
+        # serial_monitor.start()
 
     try:
         print 'Press Ctrl+C to exit...'
         # run a loop to turn on and off the LED once a second
         while True:
             messenger.send_cmd(Commands.set_led, ON)
-            time.sleep(1)
+            # wait for a response:
+            messenger.feed_in_data()
             messenger.send_cmd(Commands.set_led, OFF)
-            time.sleep(1)
+            messenger.feed_in_data()
     except KeyboardInterrupt:
         # kill the serial monitor thread
-        serial_monitor.stop()
+        # serial_monitor.stop()
         print 'Exiting...'
