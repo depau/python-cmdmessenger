@@ -9,7 +9,6 @@ import time
 
 from cmdmessenger import CmdMessenger
 from serial.tools import list_ports
-from serialmonitor import SerialMonitor
 
 ON = 1
 OFF = 0

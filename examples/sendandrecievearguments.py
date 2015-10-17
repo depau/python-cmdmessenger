@@ -1,7 +1,7 @@
 #!/usr/bin/python
-# sendandrecieve.py
+# sendandrecievearguments.py
 # Author: Adrien Emery
-# Make sure the you have the SendandRecieve example loaded onto the Arduino
+# Make sure the you have the SendandRecieveArguments example loaded onto the Arduino
 import random
 import sys
 import serial
@@ -9,7 +9,6 @@ import time
 
 from cmdmessenger import CmdMessenger
 from serial.tools import list_ports
-from serialmonitor import SerialMonitor
 
 ON = 1
 OFF = 0
