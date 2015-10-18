@@ -1,7 +1,7 @@
 #!/usr/bin/python
-# recieve.py
+# receive.py
 # Author: Adrien Emery
-# Make sure the you have the Recieve example loaded onto the Arduino
+# Make sure the you have the Receive example loaded onto the Arduino
 
 import sys
 import serial
@@ -19,7 +19,7 @@ class Commands(object):
     status = 1
 
 
-class Recieve(object):
+class Receive(object):
 
     def __init__(self):
         # make sure this baudrate matches the baudrate on the Arduino
@@ -63,11 +63,11 @@ class Recieve(object):
                     self.led_state = ON
 
 if __name__ == '__main__':
-    recieve = Recieve()
+    receive = Receive()
 
     try:
         print 'Press Ctrl+C to exit...'
-        recieve.run()
+        receive.run()
     except KeyboardInterrupt:
-        recieve.stop()
+        receive.stop()
         print 'Exiting...'

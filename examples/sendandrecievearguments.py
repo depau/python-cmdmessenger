@@ -1,7 +1,7 @@
 #!/usr/bin/python
-# sendandrecievearguments.py
+# sendandreceivearguments.py
 # Author: Adrien Emery
-# Make sure the you have the SendandRecieveArguments example loaded onto the Arduino
+# Make sure the you have the SendAndReceiveArguments example loaded onto the Arduino
 import random
 import sys
 import serial
@@ -21,7 +21,7 @@ class Commands(object):
   float_addition_result = 3
 
 
-class SendAndRecieveArguments(object):
+class SendAndReceiveArguments(object):
 
     def __init__(self):
         # make sure this baudrate matches the baudrate on the Arduino
@@ -86,16 +86,16 @@ class SendAndRecieveArguments(object):
                 print 'Sending: {}, {}'.format(a, b)
                 self.messenger.send_cmd(Commands.float_addition, a, b)
 
-            # Check to see if any data has been recieved
+            # Check to see if any data has been received
             self.messenger.feed_in_data()
 
 if __name__ == '__main__':
-    send_and_recieve_args = SendAndRecieveArguments()
+    send_and_receive_args = SendAndReceiveArguments()
 
     try:
         print 'Press Ctrl+C to exit...'
         print
-        send_and_recieve_args.run()
+        send_and_receive_args.run()
     except KeyboardInterrupt:
-        send_and_recieve_args.stop()
+        send_and_receive_args.stop()
         print 'Exiting...'

@@ -1,7 +1,7 @@
 #!/usr/bin/python
-# sendandrecieve.py
+# sendandreceive.py
 # Author: Adrien Emery
-# Make sure the you have the SendandRecieve example loaded onto the Arduino
+# Make sure the you have the SendAndReceive example loaded onto the Arduino
 
 import sys
 import serial
@@ -19,7 +19,7 @@ class Commands(object):
     status = 1
 
 
-class SendAndRecieve(object):
+class SendAndReceive(object):
 
     def __init__(self):
         # make sure this baudrate matches the baudrate on the Arduino
@@ -77,15 +77,15 @@ class SendAndRecieve(object):
                     self.messenger.send_cmd(Commands.set_led, ON)
                     self.led_state = ON
 
-            # Check to see if any data has been recieved
+            # Check to see if any data has been received
             self.messenger.feed_in_data()
 
 if __name__ == '__main__':
-    send_and_recieve = SendAndRecieve()
+    send_and_receive = SendAndReceive()
 
     try:
         print 'Press Ctrl+C to exit...'
-        send_and_recieve.run()
+        send_and_receive.run()
     except KeyboardInterrupt:
-        send_and_recieve.stop()
+        send_and_receive.stop()
         print 'Exiting...'
