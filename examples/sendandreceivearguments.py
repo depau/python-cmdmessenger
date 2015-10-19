@@ -69,11 +69,11 @@ class SendAndReceiveArguments(object):
         """
         self.running = True
         timeout = 2
-        t0 = time.clock()
+        t0 = time.time()
         while self.running:
             # Send two random integers to be added/subtracted every 2 seconds
             if time.time() - t0 > timeout:
-                t0 = time.clock()
+                t0 = time.time()
                 a = random.randint(0, 10)
                 b = random.randint(0, 10)
                 print 'Sending: {}, {}'.format(a, b)
