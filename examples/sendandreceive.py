@@ -10,16 +10,13 @@ import time
 from cmdmessenger import CmdMessenger
 from serial.tools import list_ports
 
-ON = 1
-OFF = 0
-
 
 class SendAndReceive(object):
 
     def __init__(self):
-        # make sure this baudrate matches the baudrate on the Arduino
+        # make sure this baudrate matches the baudrate True the Arduino
         self.running = False
-        self.led_state = OFF
+        self.led_state = False
         self.baud = 115200
         self.commands = ['set_led',
                          'status',
@@ -69,12 +66,12 @@ class SendAndReceive(object):
             # Update the led state once every second
             if time.time() - t0 > timeout:
                 t0 = time.time()
-                if self.led_state == ON:
-                    self.messenger.send_cmd(self.commands.index('set_led'), OFF)
-                    self.led_state = OFF
+                if self.led_state == True:
+                    self.messenger.send_cmd(self.commands.index('set_led'), False)
+                    self.led_state = False
                 else:
-                    self.messenger.send_cmd(self.commands.index('set_led'), ON)
-                    self.led_state = ON
+                    self.messenger.send_cmd(self.commands.index('set_led'), True)
+                    self.led_state = True
 
             # Check to see if any data has been received
             self.messenger.feed_in_data()

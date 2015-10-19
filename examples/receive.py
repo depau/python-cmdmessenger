@@ -11,18 +11,14 @@ from cmdmessenger import CmdMessenger
 from serial.tools import list_ports
 
 
-ON = 1
-OFF = 0
-
-
 class Receive(object):
 
     def __init__(self):
         self.running = False
-        self.led_state = OFF
-        self.commands = ['set_led']
+        self.led_state = False
         # make sure this baudrate matches the baudrate on the Arduino
         self.baud = 115200
+        self.commands = ['set_led']
 
         try:
             # gets the first available USB port
@@ -55,12 +51,12 @@ class Receive(object):
             # Update the led state once every second
             if time.time() - t0 > timeout:
                 t0 = time.time()
-                if self.led_state == ON:
-                    self.messenger.send_cmd(self.commands.index('set_led'), OFF)
-                    self.led_state = OFF
+                if self.led_state == True:
+                    self.messenger.send_cmd(self.commands.index('set_led'), False)
+                    self.led_state = False
                 else:
-                    self.messenger.send_cmd(self.commands.index('set_led'), ON)
-                    self.led_state = ON
+                    self.messenger.send_cmd(self.commands.index('set_led'), True)
+                    self.led_state = True
 
 
 if __name__ == '__main__':

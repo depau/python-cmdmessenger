@@ -258,6 +258,10 @@ class CmdMessenger(object):
         self._file.write(str(msgid))
         for a in args:
             self._file.write(self._fld_sep)
+            if a is False:
+                a = 0
+            elif a is True:
+                a = 1
             self._file.write(str(a))
         self._file.write(self._cmd_sep)
 

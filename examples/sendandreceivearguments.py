@@ -10,9 +10,6 @@ import time
 from cmdmessenger import CmdMessenger
 from serial.tools import list_ports
 
-ON = 1
-OFF = 0
-
 
 class SendAndReceiveArguments(object):
 
@@ -20,7 +17,6 @@ class SendAndReceiveArguments(object):
         # make sure this baudrate matches the baudrate on the Arduino
         self.running = False
         self.baud = 115200
-        self.led_state = OFF
         self.commands = ['acknowledge',
                          'error',
                          'float_addition',
