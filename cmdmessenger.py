@@ -174,7 +174,7 @@ class CmdMessenger(object):
         """
         init_t = time.time()
         while time.time() - init_t < timeout:
-            self._file_buffer += self._read(10000)
+            self._file_buffer += self._read(10000).decode('latin-1')
             self._process_buffer()
             for i in self._commands:
                 args = self.read_args(i, (int,))
@@ -255,16 +255,17 @@ class CmdMessenger(object):
         as arguments to the file-like object. If the keyword argument
         flush is True (default), the file-like object will also be flushed.
         """
-        self._file.write(str(msgid))
+        print(msgid)
+        self._file.write(bytes(str(msgid),'latin-1'))
         for a in args:
             self._file.write(self._fld_sep)
             if type(a) == bool:
                 a = int(a)
-            self._file.write(str(a))
-        self._file.write(self._cmd_sep)
+            self._file.write(bytes(str(a),'latin-1'))
+        self._file.write(bytes(self._cmd_sep,'latin-1'))
 
         if self.print_newline:
-            self._file.write("\r\n")
+            self._file.write(bytes("\r\n",'latin-1'))
 
         if "flush" in kwargs and kwargs["flush"]:
             self._file.flush()
