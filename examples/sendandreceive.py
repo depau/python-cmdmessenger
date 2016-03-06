@@ -29,7 +29,7 @@ class SendAndReceive(object):
         except (serial.SerialException, IndexError):
             raise SystemExit('Could not open serial port.')
         else:
-            print 'Serial port sucessfully opened.'
+            print('Serial port sucessfully opened.')
             self.messenger = CmdMessenger(self.serial_port)
             # attach callbacks
             self.messenger.attach(func=self.on_unknown_command)
@@ -38,18 +38,18 @@ class SendAndReceive(object):
     def list_usb_ports(self):
         """Use the grep generator to get a list of all USB ports.
         """
-        ports =  [port for port in list_ports.grep('usb')]
+        ports =  [port for port in list_ports.grep('USB')]
         return ports
 
     def on_unknown_command(self, received_command, *args, **kwargs):
         """Handle when an unknown command has been received.
         """
-        print "Command without attached callback received"
+        print("Command without attached callback received")
 
     def on_status(self, received_command, *args, **kwargs):
         """Callback function that prints the Arduino status to the console
         """
-        print "Status: ",  args[0][0]
+        print("Status: ",  args[0][0])
 
     def stop(self):
         """ Stops the main run loop
@@ -80,8 +80,8 @@ if __name__ == '__main__':
     send_and_receive = SendAndReceive()
 
     try:
-        print 'Press Ctrl+C to exit...'
+        print('Press Ctrl+C to exit...')
         send_and_receive.run()
     except KeyboardInterrupt:
         send_and_receive.stop()
-        print 'Exiting...'
+        print('Exiting...')
