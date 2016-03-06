@@ -27,7 +27,7 @@ class Receive(object):
         except (serial.SerialException, IndexError):
             raise SystemExit('Could not open serial port.')
         else:
-            print 'Serial port sucessfully opened.'
+            print('Serial port sucessfully opened.')
             self.messenger = CmdMessenger(self.serial_port)
 
     def list_usb_ports(self):
@@ -63,8 +63,8 @@ if __name__ == '__main__':
     receive = Receive()
 
     try:
-        print 'Press Ctrl+C to exit...'
+        print('Press Ctrl+C to exit...')
         receive.run()
     except KeyboardInterrupt:
         receive.stop()
-        print 'Exiting...'
+        print('Exiting...')
