@@ -25,12 +25,13 @@ class SendAndReceiveArguments(object):
 
         try:
             # try to open the first available usb port
-            self.port_name = self.list_usb_ports()[0][0]
+            #self.port_name = self.list_usb_ports()[0][0]
+            self.port_name = '/dev/ttyACM0'
             self.serial_port = serial.Serial(self.port_name, self.baud, timeout=0)
         except (serial.SerialException, IndexError):
             raise SystemExit('Could not open serial port.')
         else:
-            print 'Serial port sucessfully opened.'
+            print('Serial port sucessfully opened.')
             self.messenger = CmdMessenger(self.serial_port)
             # attach callbacks
             self.messenger.attach(func=self.on_error, msgid=self.commands.index('error'))
@@ -41,7 +42,7 @@ class SendAndReceiveArguments(object):
             self.messenger.send_cmd(self.commands.index('acknowledge'))
             # Wait until the arduino sends and acknowledgement back
             self.messenger.wait_for_ack(ackid=self.commands.index('acknowledge'))
-            print 'Arduino Ready'
+            print('Arduino Ready')
 
     def list_usb_ports(self):
         """ Use the grep generator to get a list of all USB ports.
@@ -52,14 +53,14 @@ class SendAndReceiveArguments(object):
     def on_error(self, received_command, *args, **kwargs):
         """Callback function to handle errors
         """
-        print 'Error:', args[0][0]
+        print('Error:', args[0][0])
 
     def on_float_addition_result(self, received_command, *args, **kwargs):
         """Callback to handle the float addition response
         """
-        print 'Addition Result:', args[0][0]
-        print 'Subtraction Result:', args[0][1]
-        print
+        print('Addition Result:', args[0][0])
+        print('Subtraction Result:', args[0][1])
+        print()
 
     def stop(self):
         self.running = False
@@ -76,7 +77,7 @@ class SendAndReceiveArguments(object):
                 t0 = time.time()
                 a = random.randint(0, 10)
                 b = random.randint(0, 10)
-                print 'Sending: {}, {}'.format(a, b)
+                print('Sending: {}, {}'.format(a, b))
                 self.messenger.send_cmd(self.commands.index('float_addition'), a, b)
 
             # Check to see if any data has been received
@@ -87,9 +88,9 @@ if __name__ == '__main__':
     send_and_receive_args = SendAndReceiveArguments()
 
     try:
-        print 'Press Ctrl+C to exit...'
-        print
+        print('Press Ctrl+C to exit...')
+        print()
         send_and_receive_args.run()
     except KeyboardInterrupt:
         send_and_receive_args.stop()
-        print 'Exiting...'
+        print('Exiting...')
