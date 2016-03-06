@@ -25,8 +25,7 @@ class SendAndReceiveArguments(object):
 
         try:
             # try to open the first available usb port
-            #self.port_name = self.list_usb_ports()[0][0]
-            self.port_name = '/dev/ttyACM0'
+            self.port_name = self.list_usb_ports()[0][0]
             self.serial_port = serial.Serial(self.port_name, self.baud, timeout=0)
         except (serial.SerialException, IndexError):
             raise SystemExit('Could not open serial port.')
@@ -47,7 +46,7 @@ class SendAndReceiveArguments(object):
     def list_usb_ports(self):
         """ Use the grep generator to get a list of all USB ports.
         """
-        ports =  [port for port in list_ports.grep('usb')]
+        ports =  [port for port in list_ports.grep('USB')]
         return ports
 
     def on_error(self, received_command, *args, **kwargs):

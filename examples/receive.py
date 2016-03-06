@@ -33,7 +33,7 @@ class Receive(object):
     def list_usb_ports(self):
         """Use the grep generator to get a list of all USB ports.
         """
-        ports =  [port for port in list_ports.grep('usb')]
+        ports =  [port for port in list_ports.grep('USB')]
         return ports
 
     def stop(self):
