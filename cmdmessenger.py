@@ -37,6 +37,7 @@ class CmdMessenger(object):
     _commands = []
     _max_callbacks = MAXCALLBACKS
     _timeout = DEFAULT_TIMEOUT
+    _encoding = 'latin-1' # or 'ascii' if limiting to the first 128 characters
 
     def __init__(self, flobject, fld_separator=",", cmd_separator=";", esc_character="/", readmeth=None):
         self._file = flobject
@@ -88,7 +89,7 @@ class CmdMessenger(object):
         default to 10000 (~10KB). If you specified a read wrapper,
         it will be used for reading.
         """
-        self._file_buffer += self._read(size)
+        self._file_buffer += self._read(size).decode(self._encoding)
         #print "BUFFER", self._file_buffer
         self._process_buffer()
         #print "COMMANDS", self._commands
@@ -174,9 +175,8 @@ class CmdMessenger(object):
         """
         init_t = time.time()
         while time.time() - init_t < timeout:
-            self._file_buffer += self._read(10000)
+            self._file_buffer += self._read(10000).decode(self._encoding)
             self._process_buffer()
-            print "CMDS", self._commands
             for i in self._commands:
                 args = self.read_args(i, (int,))
                 if args[0] in (ackid, errid):
@@ -192,7 +192,7 @@ class CmdMessenger(object):
     def read_args(self, command, types=None):
         """
         Split a :py:data:`command` into its single arguments. If :py:data:`types`
-        is provided and is a list of primitives/callables, it will convert 
+        is provided and is a list of primitives/callables, it will convert
         its respective argument to that type.
         """
         cmd = command.split(self._fld_sep)
@@ -230,7 +230,7 @@ class CmdMessenger(object):
         Ex. typify_args(["10", "7.9", "inf", "hello"], [int, float, float, None])
         --> [10, 7.9, inf, "hello"]
         """
-        for i in xrange(0, len(types)):
+        for i in range(0, len(types)):
             if not types[i]:
                 continue
             arglist[i] = types[i](arglist[i])
@@ -256,14 +256,16 @@ class CmdMessenger(object):
         as arguments to the file-like object. If the keyword argument
         flush is True (default), the file-like object will also be flushed.
         """
-        self._file.write(str(msgid))
+        self._file.write(bytes(str(msgid),self._encoding))
         for a in args:
-            self._file.write(self._fld_sep)
-            self._file.write(str(a))
-        self._file.write(self._cmd_sep)
+            self._file.write(bytes(self._fld_sep, self._encoding))
+            if type(a) == bool:
+                a = int(a)
+            self._file.write(bytes(str(a),self._encoding))
+        self._file.write(bytes(self._cmd_sep,self._encoding))
 
         if self.print_newline:
-            self._file.write("\r\n")
+            self._file.write(bytes("\r\n",self._encoding))
 
         if "flush" in kwargs and kwargs["flush"]:
             self._file.flush()
