@@ -1,5 +1,5 @@
 # python-cmdmessenger
-A CmdMessenger port for Python
+A CmdMessenger port for Python 3.*
 
 ## Installation ##
 Put `cmdmessenger.py` into your project folder or in your python site packages.
