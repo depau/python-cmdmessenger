@@ -178,7 +178,6 @@ class CmdMessenger(object):
         while time.time() - init_t < timeout:
             self._file_buffer += self._read(10000)
             self._process_buffer()
-            print "CMDS", self._commands
             for i in self._commands:
                 args = self.read_args(i, (int,))
                 if args[0] in (ackid, errid):
@@ -194,7 +193,7 @@ class CmdMessenger(object):
     def read_args(self, command, types=None):
         """
         Split a :py:data:`command` into its single arguments. If :py:data:`types`
-        is provided and is a list of primitives/callables, it will convert 
+        is provided and is a list of primitives/callables, it will convert
         its respective argument to that type.
         """
         cmd = command.split(self._fld_sep)
@@ -261,6 +260,8 @@ class CmdMessenger(object):
         self._file.write(str(msgid))
         for a in args:
             self._file.write(self._fld_sep)
+            if type(a) == bool:
+                a = int(a)
             self._file.write(str(a))
         self._file.write(self._cmd_sep)
 
