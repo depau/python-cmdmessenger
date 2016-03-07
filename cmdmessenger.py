@@ -3,6 +3,8 @@
 
 import time, warnings
 
+warnings.warn("You're using cmdmessenger for Python 2.* from master branch. The master branch will soon switch to Python 3.* by default. Make sure you checkout the python2 branch if you want to stick with it.", PendingDeprecationWarning)
+
 MAXCALLBACKS = 50
 DEFAULT_TIMEOUT = 5000
 
